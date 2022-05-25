@@ -3,6 +3,9 @@ package com.alex.config;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.context.annotation.*;
 import org.springframework.core.env.Environment;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.jdbc.datasource.init.DataSourceInitializer;
+import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
@@ -76,4 +79,15 @@ public class WebConfig implements WebMvcConfigurer {
 
         return ds;
     }
+    @Bean
+    public DataSourceInitializer dataSourceInitializer() {
+        ResourceDatabasePopulator resourceDatabasePopulator = new ResourceDatabasePopulator();
+        resourceDatabasePopulator.addScript(new ClassPathResource("shema.sql"));
+
+        DataSourceInitializer dataSourceInitializer = new DataSourceInitializer();
+        dataSourceInitializer.setDataSource(dataSource());
+        dataSourceInitializer.setDatabasePopulator(resourceDatabasePopulator);
+        return dataSourceInitializer;
+    }
+
 }
