@@ -1,11 +1,12 @@
 package com.alex.config;
 
 import org.apache.commons.dbcp2.BasicDataSource;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.*;
 import org.springframework.core.env.Environment;
+import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -48,6 +49,13 @@ public class WebConfig implements WebMvcConfigurer {
 
         return properties;
     }
+    @Bean
+    public PlatformTransactionManager platformTransactionManager(){
+        JpaTransactionManager trm = new JpaTransactionManager();
+        trm.setEntityManagerFactory(entityManagerFactory().getObject());
+
+        return trm;
+    }
 
     @Bean
     public DataSource dataSource() {
@@ -57,6 +65,14 @@ public class WebConfig implements WebMvcConfigurer {
         ds.setUrl(environment.getRequiredProperty("db.url"));
         ds.setUsername(environment.getRequiredProperty("db.username"));
         ds.setPassword(environment.getRequiredProperty("db.password"));
+
+        ds.setInitialSize(Integer.parseInt(environment.getRequiredProperty("db.initialSize")));
+        ds.setMinIdle(Integer.parseInt(environment.getRequiredProperty("db.minIdle")));
+        ds.setMaxIdle(Integer.parseInt(environment.getRequiredProperty("db.maxIdle")));
+        ds.setTimeBetweenEvictionRunsMillis(Long.parseLong(environment.getRequiredProperty("db.timeBetweenEvictionRunsMillis")));
+        ds.setMinEvictableIdleTimeMillis(Long.parseLong(environment.getRequiredProperty("db.minEvictableIdleTimeMillis")));
+        ds.setTestOnBorrow(Boolean.parseBoolean(environment.getRequiredProperty("db.testOnBorrow")));
+        ds.setValidationQuery(environment.getRequiredProperty("db.validationQuery"));
 
         return ds;
     }
