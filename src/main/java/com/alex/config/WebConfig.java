@@ -4,6 +4,7 @@ import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.context.annotation.*;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.jdbc.datasource.init.DataSourceInitializer;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.orm.jpa.JpaTransactionManager;
@@ -14,7 +15,9 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.annotation.Resource;
+import javax.persistence.EntityManager;
 import javax.sql.DataSource;
+import java.util.List;
 import java.util.Properties;
 
 
@@ -51,6 +54,11 @@ public class WebConfig implements WebMvcConfigurer {
         properties.put("hibernate.hbm2ddl.auto", environment.getRequiredProperty("hibernate.hbm2ddl.auto"));
 
         return properties;
+    }
+
+    @Bean
+    public EntityManager entityManager(){
+        return entityManagerFactory().getObject().createEntityManager();
     }
     @Bean
     public PlatformTransactionManager platformTransactionManager(){
@@ -90,4 +98,8 @@ public class WebConfig implements WebMvcConfigurer {
         return dataSourceInitializer;
     }
 
+    @Override
+    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+
+    }
 }
