@@ -1,5 +1,9 @@
 package com.alex.config;
 
+import com.alex.mappers.HumanMapper;
+import com.alex.mappers.HumanMapperImpl;
+import com.alex.mappers.PhoneMapper;
+import com.alex.mappers.PhoneMapperImpl;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.context.annotation.*;
 import org.springframework.core.env.Environment;
@@ -119,5 +123,15 @@ public class WebConfig implements WebMvcConfigurer {
         FreeMarkerConfigurer freeMarkerConfigurer = new FreeMarkerConfigurer();
         freeMarkerConfigurer.setTemplateLoaderPath("/WEB-INF/pages");
         return freeMarkerConfigurer;
+    }
+
+    @Bean
+    public HumanMapper humanMapperBean(){
+        return new  HumanMapperImpl();
+    }
+
+    @Bean
+    public PhoneMapper phoneMapperBean(){
+        return new PhoneMapperImpl();
     }
 }
