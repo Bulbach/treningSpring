@@ -11,6 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class HumanController {
     @GetMapping("/check")
     public String check(ModelMap model) {
-        return "Human controller";
+        return "Human controller dddddd";
     }
 }
