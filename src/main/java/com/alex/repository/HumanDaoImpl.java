@@ -17,11 +17,11 @@ public class HumanDaoImpl extends AbstractHibernateDao<Human, Long> {
         this.entityManager = entityManager;
     }
 
-    @Override
-    public List<Human> findAll() {
-
-        return entityManager
-                .createQuery("select t from Human t", Human.class)
-                .getResultList();
-    }
+//    @Override
+//    public List<Human> findAll() {
+//
+//        return entityManager
+//                .createQuery("select t from Human t", Human.class)
+//                .getResultList();
+//    }
 }

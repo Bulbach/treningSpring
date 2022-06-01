@@ -81,4 +81,16 @@ public class HumanController {
     public String check(ModelMap model) {
         return "Human controller pppp";
     }
+
+    @GetMapping("/test")
+    public HumanDto humanDto(){
+        HumanDto testDto = new HumanDto();
+        testDto.setId(7L);
+        testDto.setFirstname("Murlock");
+        testDto.setLastname("Barmaglot");
+        testDto.setCity("Hole");
+        testDto.setStreet("long");
+        testDto.setBirthday("20220224");
+        return testDto;
+    }
 }

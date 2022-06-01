@@ -24,10 +24,10 @@ alter table `humans` add foreign key (`phone_id`) references `phones`(`id`);
 
 insert into humans (firstname,lastname,city,street,birthday)
 values
-    ('Alex','Verezubov','Gomel','Sviridova','20081984'),
-    ('Anrey','Verezubov','Minsk','Mazurova','30061990'),
-    ('Olga','Appel','Gomel','Pr.Kosmonaftov','09011985'),
-    ('Ivan','Semenov','Gomel','Balbesovka','25071983')
+    ('Alex','Verezubov','Gomel','Sviridova','19840820'),
+    ('Anrey','Verezubov','Minsk','Mazurova','19900630'),
+    ('Olga','Appel','Gomel','Pr.Kosmonaftov','19850109'),
+    ('Ivan','Semenov','Gomel','Balbesovka','19830725')
 ;
 
 insert into phones (number,human_id)

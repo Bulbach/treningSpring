@@ -4,11 +4,14 @@ import com.alex.mappers.HumanMapper;
 import com.alex.mappers.HumanMapperImpl;
 import com.alex.mappers.PhoneMapper;
 import com.alex.mappers.PhoneMapperImpl;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.context.annotation.*;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.jdbc.datasource.init.DataSourceInitializer;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.orm.jpa.JpaTransactionManager;
@@ -23,6 +26,7 @@ import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.sql.DataSource;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Properties;
@@ -107,7 +111,11 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+        MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
+        converter.setObjectMapper(new ObjectMapper());
+        converter.setSupportedMediaTypes(Collections.singletonList(MediaType.APPLICATION_JSON));
 
+        converters.add(converter);
     }
 
     @Bean

@@ -12,7 +12,7 @@ import java.util.List;
 @Entity
 @Table(name = "humans")
 public class Human implements Serializable {
-    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MM/dd/yyyy");
+    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 //    @GenericGenerator(name = "")
@@ -30,7 +30,7 @@ public class Human implements Serializable {
     private List<Phone> phones = new ArrayList<>();
 
     @Column
-    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthday;
 
     public Human() {
@@ -83,6 +83,10 @@ public class Human implements Serializable {
     public void setBirthday(LocalDate birthday) {
         this.birthday = birthday;
     }
+//    public void setBirthday(String birthday){
+//        setBirthday(LocalDate.parse(birthday));
+//        this.birthday = LocalDate.parse(birthday);
+//    }
 
     public String getBithdayValue() {
         return this.birthday != null ? DATE_FORMAT.format(this.birthday) : "";
