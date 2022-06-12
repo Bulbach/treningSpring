@@ -3,22 +3,23 @@ package com.alex.repository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import java.io.Serializable;
 import java.util.List;
 
-public class AbstractHibernateDao<T, PK extends Serializable> implements GenericDao <T,PK> {
+public class AbstractHibernateDao<T, PK extends Serializable> implements GenericDao<T, PK> {
 
     @Autowired
-    private final EntityManager entityManager;
+    private final EntityManagerFactory managerFactory;
     private final Class<T> clazz;
 
-    public AbstractHibernateDao(EntityManager entityManager, Class<T> clazz) {
-        this.entityManager = entityManager;
+    public AbstractHibernateDao(EntityManagerFactory entityManager, Class<T> clazz) {
+        this.managerFactory = entityManager;
         this.clazz = clazz;
     }
 
     public EntityManager getEntityManager() {
-        return entityManager;
+        return managerFactory.createEntityManager();
     }
 
     @Override
@@ -69,11 +70,9 @@ public class AbstractHibernateDao<T, PK extends Serializable> implements Generic
     public void deleteById(final PK entityId) {
         EntityManager entityManager = getEntityManager();
         T entity = entityManager.find(clazz, entityId);
-
         entityManager.getTransaction().begin();
         entityManager.remove(entity);
         entityManager.getTransaction().commit();
-
         entityManager.close();
     }
 

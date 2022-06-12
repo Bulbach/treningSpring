@@ -5,15 +5,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 
 @Repository
-public class PhoneDaoImpl extends AbstractHibernateDao<Phone,Long>{
-    @Autowired
-    private EntityManager entityManager;
+public class PhoneDaoImpl extends AbstractHibernateDao<Phone, Long> {
+        @Autowired
+//    @PersistenceContext
+    private EntityManagerFactory managerFactory;
 
-    public PhoneDaoImpl(EntityManager entityManager) {
-        super(entityManager, Phone.class);
-        this.entityManager = entityManager;
+    public PhoneDaoImpl(EntityManagerFactory managerFactory) {
+        super(managerFactory, Phone.class);
+        this.managerFactory = managerFactory;
+    }
+
+    public EntityManager getEntityManager() {
+        return managerFactory.createEntityManager();
     }
 }
 
