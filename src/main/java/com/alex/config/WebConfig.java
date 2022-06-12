@@ -53,7 +53,6 @@ public class WebConfig implements WebMvcConfigurer {
         em.setPackagesToScan(environment.getRequiredProperty("db.entity.package"));
         em.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
         em.setJpaProperties(getHibernateProperties());
-
         return em;
     }
 
@@ -67,10 +66,10 @@ public class WebConfig implements WebMvcConfigurer {
         return properties;
     }
 
-    @Bean
-    public EntityManager entityManager(){
-        return Objects.requireNonNull(entityManagerFactory().getObject()).createEntityManager();
-    }
+//    @Bean
+//    public EntityManager entityManager(){
+//        return Objects.requireNonNull(entityManagerFactory().getObject()).createEntityManager();
+//    }
     @Bean
     public PlatformTransactionManager platformTransactionManager(){
         JpaTransactionManager trm = new JpaTransactionManager();
@@ -129,7 +128,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Bean
     public FreeMarkerConfigurer freemarkerConfig() {
         FreeMarkerConfigurer freeMarkerConfigurer = new FreeMarkerConfigurer();
-        freeMarkerConfigurer.setTemplateLoaderPath("/WEB-INF/pages");
+        freeMarkerConfigurer.setTemplateLoaderPath("/WEB-INF/templates/");
         return freeMarkerConfigurer;
     }
 
