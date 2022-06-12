@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS `human`.`humans`
     `lastname` VARCHAR(50)              NOT NULL,
     `city`  VARCHAR(45) ,
     `street`  VARCHAR(45) ,
-    `birthday` VARCHAR(45) ,
+    `birthday` date ,
     `phone_id` INT
     );
 
