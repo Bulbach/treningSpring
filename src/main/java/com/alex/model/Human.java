@@ -15,7 +15,7 @@ public class Human implements Serializable {
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    @GenericGenerator(name = "")
+    @Column
     private Long id;
     @Column
     private String lastname; // Фамилия
@@ -27,10 +27,12 @@ public class Human implements Serializable {
     private String street;
 
     @OneToMany(mappedBy = "human",cascade = CascadeType.ALL,orphanRemoval = true)
+    @Column
     private List<Phone> phones = new ArrayList<>();
 
     @Column
     @DateTimeFormat(pattern = "yyyy-MM-dd")
+//    @Temporal(TemporalType.DATE)
     private LocalDate birthday;
 
     public Human() {
@@ -60,6 +62,14 @@ public class Human implements Serializable {
         this.birthday = birthday;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public String getLastname() {
         return lastname;
     }
@@ -83,12 +93,8 @@ public class Human implements Serializable {
     public void setBirthday(LocalDate birthday) {
         this.birthday = birthday;
     }
-//    public void setBirthday(String birthday){
-//        setBirthday(LocalDate.parse(birthday));
-//        this.birthday = LocalDate.parse(birthday);
-//    }
 
-    public String getBithdayValue() {
+    public String getBirthdayValue() {
         return this.birthday != null ? DATE_FORMAT.format(this.birthday) : "";
     }
 
@@ -127,7 +133,7 @@ public class Human implements Serializable {
                 ", firstname='" + firstname + '\'' +
                 ", city='" + city + '\'' +
                 ", street='" + street + '\'' +
-                ", phones=" + phones +
+//                ", phones=" + phones +
                 ", birthday=" + birthday +
                 '}';
     }

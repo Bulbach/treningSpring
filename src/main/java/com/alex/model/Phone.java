@@ -51,7 +51,7 @@ public class Phone implements Serializable {
         return "Phone{" +
                 "id=" + id +
                 ", phoneNumber='" + phoneNumber + '\'' +
-                ", human=" + human +
+//                ", human=" + human +
                 '}';
     }
 }
