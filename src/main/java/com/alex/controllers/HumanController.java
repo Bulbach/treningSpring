@@ -3,17 +3,18 @@ package com.alex.controllers;
 import com.alex.dto.HumanDto;
 import com.alex.service.HumanService;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.http.MediaType;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
 
-@RestController
+@Controller
 @RequestMapping("/humans")
 public class HumanController {
 
@@ -35,28 +36,73 @@ public class HumanController {
         return modelAndView;
     }
 
-    //        @PostMapping("/add_human")
+    @PostMapping(value = "/add", consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
 //    @ApiOperation("добавление новой сущности")
-//    public String createHuman(@RequestBody HumanDto humanDto, Model model) {
+//    @ResponseBody
+    public void createHuman(@RequestBody HumanDto humanDto) {
+//        ModelAndView modelAndView = new ModelAndView("one");
 //        model.addAttribute("human", humanService.createHuman(humanDto));
-//        return "index";
+        HumanDto humanDtoTemp = humanService.createHuman(humanDto);
+//        modelAndView.addObject("human", humanDtoTemp);
+
+//        return modelAndView;
+    }
+//    @PostMapping(value = "/add")
+//    public Map<String, Object> createHuman(@RequestBody HumanDto humanDto) {
+//        HashMap<String, Object> map = new HashMap<String, Object>();
+//        map.put("human", humanService.updateHuman(humanDto));
+//        return map;
+////        return humanService.createHuman(humanDto);
 //    }
-//
+    /*
+    @RequestMapping(
+  value = "/greetings-with-map-return-type",
+  method = RequestMethod.GET,
+  produces = "application/json"
+)
+@ResponseBody
+public Map<String, Object> getGreetingWhileReturnTypeIsMap() {
+    HashMap<String, Object> map = new HashMap<String, Object>();
+    map.put("test", "Hello from map");
+    return map;
+}
+     */
+
+    //
 //    todo тоже самое переделать
-//    @PostMapping("update_human")
 //    @ApiOperation("изменение сущности")
-//    public HumanDto updateHuman(@RequestBody HumanDto humanDto) {
-//        return humanService.updateHuman(humanDto);
-//    }
-//
-    @GetMapping(value = "/find-by-id/{id}")
+
+    @PostMapping(value = "update")
+    @ResponseBody
+    public void updateHuman(@RequestBody HumanDto humanDto) {
+        humanService.updateHuman(humanDto);
+        home();
+    }
+
+    @GetMapping(value = "/{id}")
 //    @ApiOperation("поиск по id")
-    public ModelAndView getById(@PathVariable() Long id) {
-        ModelAndView modelAndView = new ModelAndView("index");
-        HumanDto humanDto = humanService.getById(id);
-        modelAndView.addObject("human", humanDto);
-        return modelAndView;
+    public String getById(@PathVariable() Long id, Model model) {
+//        ModelAndView modelAndView = new ModelAndView("one");
+//        HumanDto humanDto = humanService.getById(id);
+//        modelAndView.addObject("human", humanDto);
+//        return modelAndView;
 //        return humanService.getById(id);
+        HumanDto humanDto = humanService.getById(id);
+        model.addAttribute("human", humanDto);
+        return "one";
+    }
+
+    @GetMapping(value = "/api/{id}")
+    @ResponseBody
+    public HumanDto getByIdApi(@PathVariable() Long id, Model model) {
+//        ModelAndView modelAndView = new ModelAndView("one");
+//        HumanDto humanDto = humanService.getById(id);
+//        modelAndView.addObject("human", humanDto);
+//        return modelAndView;
+//        return humanService.getById(id);
+        HumanDto humanDto = humanService.getById(id);
+
+        return humanDto;
     }
 
 
@@ -70,20 +116,23 @@ public class HumanController {
 //        return "humans";
         return modelAndView;
     }
-//
-//    @DeleteMapping("delete/{id}")
+
+    //
+    @DeleteMapping("delete/{id}")
 //    @ApiOperation("удаление сущьности")
-//    public void deleteHuman(Long id) {
-//        humanService.delete(id);
-//    }
+    public void deleteHuman(@PathVariable Long id) {
+        humanService.delete(id);
+    }
 
     @GetMapping("/check")
+    @ResponseBody
     public String check(ModelMap model) {
         return "Human controller pppp";
     }
 
     @GetMapping("/test")
-    public HumanDto humanDto(){
+    @ResponseBody
+    public HumanDto humanDto() {
         HumanDto testDto = new HumanDto();
         testDto.setId(7L);
         testDto.setFirstname("Murlock");

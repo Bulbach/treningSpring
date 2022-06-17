@@ -6,24 +6,15 @@ import com.alex.model.Human;
 import com.alex.repository.HumanDaoImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+
 public class HumanService {
-//    private final HumanDaoImpl humanDao = getHumanDao();
-//    private final HumanMapper humanMapper = getHumanMapper();
-//
-//
-//    public HumanDaoImpl getHumanDao() {
-//        return humanDao;
-//    }
-//
-//    public HumanMapper getHumanMapper() {
-//        return humanMapper;
-//    }
 
     private final HumanMapper humanMapper;
     private final HumanDaoImpl humanDao;
@@ -33,17 +24,15 @@ public class HumanService {
         this.humanMapper = humanMapper;
         this.humanDao = humanDao;
     }
-
-
     public HumanDto getById(Long id) {
 
-        return humanMapper.toDto((Human) humanDao.findOne(id));
+        return humanMapper.toDto(humanDao.findOne(id));
     }
 
     public HumanDto createHuman(HumanDto human) {
         Human human1 = humanMapper.toModel(human);
 
-        return humanMapper.toDto((Human) humanDao.create(human1));
+        return humanMapper.toDto(humanDao.create(human1));
     }
 
 
@@ -54,12 +43,12 @@ public class HumanService {
     public List<HumanDto> getAll() {
         List<Human> humanList = humanDao.findAll();
         System.out.println(humanList);
-        if (humanList == null){
+        if (humanList == null) {
             return Collections.emptyList();
         }
-        return (List<HumanDto>) humanDao.findAll()
+        return humanDao.findAll()
                 .stream()
-                .map(h->  humanMapper.toDto((Human) h))
+                .map(h -> humanMapper.toDto((Human) h))
                 .collect(Collectors.toList());
     }
 
@@ -71,9 +60,9 @@ public class HumanService {
     }
 
     public HumanDto updateHuman(HumanDto humanDto) {
-        Human humanById = (Human) humanDao.findOne(humanDto.getId());
+        Human humanById = humanDao.findOne(humanDto.getId());
         humanMapper.updateHumanFromDto(humanDto, humanById);
 
-        return humanMapper.toDto((Human) humanDao.create(humanById));
+        return humanMapper.toDto(humanDao.create(humanById));
     }
 }

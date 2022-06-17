@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+
 @Entity
 @Table(name = "humans")
 public class Human implements Serializable {
@@ -26,7 +27,7 @@ public class Human implements Serializable {
     @Column
     private String street;
 
-    @OneToMany(mappedBy = "human",cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(mappedBy = "human", cascade = CascadeType.ALL, orphanRemoval = true)
     @Column
     private List<Phone> phones = new ArrayList<>();
 
@@ -43,7 +44,7 @@ public class Human implements Serializable {
         this.lastname = lastname;
     }
 
-    public Human(Long id, String lastname, String firstname, String city, String street,LocalDate birthday) {
+    public Human(Long id, String lastname, String firstname, String city, String street, LocalDate birthday) {
         this.id = id;
         this.lastname = lastname;
         this.firstname = firstname;
@@ -105,7 +106,8 @@ public class Human implements Serializable {
     public void setPhones(List<Phone> phonenum) {
         this.phones = phonenum;
     }
-    public void setPhones(Phone phone){
+
+    public void setPhones(Phone phone) {
         phones.add(phone);
     }
 
