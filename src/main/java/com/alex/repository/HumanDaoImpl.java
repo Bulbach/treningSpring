@@ -8,10 +8,7 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Join;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
 import java.util.List;
 
 @Repository
@@ -40,7 +37,7 @@ public class HumanDaoImpl extends AbstractHibernateDao<Human, Long> {
         return list;
     }
 
-//    @Override
+    //    @Override
 //    public Human findOne(Long id) {
 //        EntityManager entityManager = getEntityManager();
 //        Human human = (Human) entityManager
@@ -55,14 +52,14 @@ public class HumanDaoImpl extends AbstractHibernateDao<Human, Long> {
 //        return human;
 //    }
     @Override
-    public Human findOne(Long id){
+    public Human findOne(Long id) {
         EntityManager entityManager = getEntityManager();
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Human> human = builder.createQuery(Human.class);
         Root<Human> root = human.from(Human.class);
-        Join<Human, Phone> join = root.join("phones");
-        human.where(builder.equal(join.get("id"), id));
+        Join<Human, Phone> join = root.join("phones", JoinType.LEFT);
+        human.where(builder.equal(root.get("id"), id));
         Human human1 = entityManager.createQuery(human).getSingleResult();
-       return human1;
+        return human1;
     }
-   }
+}
