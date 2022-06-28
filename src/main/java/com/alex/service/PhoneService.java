@@ -4,6 +4,7 @@ import com.alex.dto.PhoneDto;
 import com.alex.mappers.PhoneMapper;
 import com.alex.model.Phone;
 import com.alex.repository.PhoneDaoImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,9 +12,16 @@ import java.util.stream.Collectors;
 
 @Service
 public class PhoneService {
-    private final PhoneDaoImpl phoneDao = getPhoneDao();
-    private final PhoneMapper phoneMapper = getPhoneMapper();
 
+    private final PhoneDaoImpl phoneDao;
+
+    private final PhoneMapper phoneMapper;
+
+    @Autowired
+    public PhoneService(PhoneDaoImpl phoneDao, PhoneMapper phoneMapper) {
+        this.phoneDao = phoneDao;
+        this.phoneMapper = phoneMapper;
+    }
 
     public PhoneDaoImpl getPhoneDao() {
         return phoneDao;
@@ -25,27 +33,28 @@ public class PhoneService {
 
     public PhoneDto getById(Long id) {
 
-        return phoneMapper.toDto((Phone) phoneDao.findOne(id));
+        return phoneMapper.toDto(phoneDao.findOne(id));
     }
 
     public PhoneDto createPhone(PhoneDto phone) {
         Phone phone1 = phoneMapper.toModel(phone);
 
-        return phoneMapper.toDto((Phone) phoneDao.create(phone1));
+        return phoneMapper.toDto(phoneDao.create(phone1));
     }
 
-    public void delete(Long id){
+
+    public void delete(Long id) {
         phoneDao.deleteById(id);
     }
 
-    public List<PhoneDto> getAll(){
+    public List<PhoneDto> getAll() {
         return (List<PhoneDto>) phoneDao.findAll()
                 .stream()
-                .map(p-> phoneMapper.toDto((Phone) p))
+                .map(p -> phoneMapper.toDto(p))
                 .collect(Collectors.toList());
     }
 
-    public void saveAll(List<PhoneDto> phoneDtoList){
+    public void saveAll(List<PhoneDto> phoneDtoList) {
         List<Phone> phoneList = phoneDtoList.stream()
                 .map(phoneMapper::toModel)
                 .collect(Collectors.toList());
@@ -53,8 +62,8 @@ public class PhoneService {
     }
 
     public PhoneDto updatePhone(PhoneDto phoneDto) {
-        Phone phoneById = (Phone) phoneDao.findOne(phoneDto.getId());
-        phoneMapper.updatePhoneFromDto(phoneDto,phoneById);
-        return phoneMapper.toDto((Phone) phoneDao.create(phoneById));
+        Phone phoneById = phoneDao.findOne(phoneDto.getId());
+        phoneMapper.updatePhoneFromDto(phoneDto, phoneById);
+        return phoneMapper.toDto(phoneDao.update(phoneById));
     }
 }
