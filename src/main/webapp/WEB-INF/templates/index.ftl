@@ -12,6 +12,9 @@
     <h2>FreeMarker Spring MVC Hello World</h2>
 </div>
 <style>
+    body{
+        background: aquamarine;
+    }
     .field {
         clear: both;
         text-align: right;
@@ -19,6 +22,8 @@
     }
 
     label {
+        color:darkslateblue;
+    ;
         float: left;
         padding-right: 10px;
         font-weight: bold;
@@ -33,6 +38,7 @@
         /*float: left;*/
     }
 </style>
+
 <div class="content">
     <div class="main">
         <form name="human" action="/humans/add" method="post">
@@ -95,26 +101,16 @@
                     </#list>
                 </td>
                 <td>
-                    <form name="update" method="post" action="/humans/update">
-                        <input type="hidden" name="firstname" value=${humans.firstname}>
-                        <input type="hidden" name="lastname" value=${humans.lastname}>
-                        <input type="hidden" name="city" value=${humans.city}>
-                        <input type="hidden" name="street" value=${humans.street}>
-                        <input type="hidden" name="birthday" value=${humans.birthday}>
-                        <#--                        <input type="hidden" name="phoneDtoList" value=${humans.phoneDtoList}>-->
-                        <button type="submit" class="button">Update</button>
-                    </form>
+                   <a href="/humans/update/${humans.id}">Update</a>
                 </td>
                 <td>
-                    <form name="del" action="/humans/delete" method="post">
+                    <form name="del" action="/humans/delete" method="post" onsubmit="return confirm('Are you sure?')">
                         <input type="hidden" name="id" value="${humans.id}">
                         <button type="submit" class="button">Delete</button>
                     </form>
-                    <#--                    <a href="/humans/delete/?${humans.id}" >Delete</a>-->
                 </td>
             </tr>
         </#list>
-        <#---->
     </table>
 </div>
 </body>

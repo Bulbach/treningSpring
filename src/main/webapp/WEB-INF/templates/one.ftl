@@ -1,3 +1,10 @@
+
+<body>
+<style>
+    body{
+        background: aquamarine;
+    }
+</style>
 <div>
     <table border="1" cellpadding="20">
         <tr>
@@ -26,3 +33,7 @@
         </tr>
     </table>
 </div>
+<div>
+    <a href="/humans/home">Home </a>
+</div>
+</body>
