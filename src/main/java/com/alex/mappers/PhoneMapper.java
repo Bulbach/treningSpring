@@ -13,6 +13,6 @@ public interface PhoneMapper {
     PhoneDto toDto(Phone phone);
     @Mapping(source = "humanDto",target = "human")
     Phone toModel(PhoneDto phone);
-
+    @Mapping(source = "humanDto",target = "human")
     void updatePhoneFromDto(PhoneDto dto, @MappingTarget Phone phone);
 }
