@@ -57,7 +57,7 @@ public class HumanDaoImpl extends AbstractHibernateDao<Human, Long> {
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Human> human = builder.createQuery(Human.class);
         Root<Human> root = human.from(Human.class);
-        Join<Human, Phone> join = root.join("phones", JoinType.LEFT);
+        root.join("phones", JoinType.LEFT);
         human.where(builder.equal(root.get("id"), id));
         Human human1 = entityManager.createQuery(human).getSingleResult();
         return human1;

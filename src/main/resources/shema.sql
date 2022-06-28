@@ -9,8 +9,8 @@ CREATE TABLE IF NOT EXISTS `human`.`humans`
     `lastname` VARCHAR(50)              NOT NULL,
     `city`  VARCHAR(45) ,
     `street`  VARCHAR(45) ,
-    `birthday` date ,
-    `phone_id` INT
+    `birthday` date
+
     );
 
 CREATE TABLE IF NOT EXISTS `human`.`phones`
@@ -20,7 +20,6 @@ CREATE TABLE IF NOT EXISTS `human`.`phones`
     `human_id` INT             NOT NULL,
     FOREIGN KEY (`human_id`) REFERENCES `human`.`humans` (`id`)
     );
-alter table `humans` add foreign key (`phone_id`) references `phones`(`id`);
 
 insert into humans (firstname,lastname,city,street,birthday)
 values

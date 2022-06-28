@@ -14,5 +14,5 @@ public interface PhoneMapper {
     @Mapping(source = "humanDto",target = "human")
     Phone toModel(PhoneDto phone);
     @Mapping(source = "humanDto",target = "human")
-    void updatePhoneFromDto(PhoneDto dto, @MappingTarget Phone phone);
+    Phone updatePhoneFromDto(PhoneDto dto, @MappingTarget Phone phone);
 }

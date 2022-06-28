@@ -77,7 +77,7 @@ public class HumanController {
     @PostMapping(value = "update")
     @Transactional
     @ResponseBody
-    public String updateHuman(HumanDto humanDto) {
+    public ModelAndView updateHuman(HumanDto humanDto) {
         for (PhoneDto item:humanDto.getPhoneDtoList()){
             item.setHumanDto(humanDto);
             phoneService.updatePhone(item);
@@ -85,7 +85,7 @@ public class HumanController {
 
         humanService.updateHuman(humanDto);
 
-        return "forward:/humans/home";
+        return new ModelAndView("redirect:/humans/home");
     }
 
     @GetMapping(value = "update/{id}")
