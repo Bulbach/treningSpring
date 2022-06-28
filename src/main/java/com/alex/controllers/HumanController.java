@@ -1,16 +1,21 @@
 package com.alex.controllers;
 
 import com.alex.dto.HumanDto;
+import com.alex.dto.PhoneDto;
 import com.alex.service.HumanService;
+import com.alex.service.PhoneService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.ws.rs.PathParam;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -20,9 +25,15 @@ public class HumanController {
 
     @Autowired
     private HumanService humanService;
+    @Autowired
+    private PhoneService phoneService;
 
     public void setHumanService(HumanService humanService) {
         this.humanService = humanService;
+    }
+
+    public void setPhoneService(PhoneService phoneService) {
+        this.phoneService = phoneService;
     }
 
     @RequestMapping(value = "/home")
@@ -31,52 +42,59 @@ public class HumanController {
         ModelAndView modelAndView = new ModelAndView("index");
         List<HumanDto> listHuman = humanService.getAll();
         modelAndView.addObject("listHuman", listHuman);
-//        model.addAttribute("listHuman", humanService.getAll());
-//        return "index";
+
         return modelAndView;
     }
 
     @PostMapping(value = "/add", consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
-//    @ApiOperation("добавление новой сущности")
-//    @ResponseBody
-    public void createHuman(@RequestBody HumanDto humanDto) {
-//        ModelAndView modelAndView = new ModelAndView("one");
-//        model.addAttribute("human", humanService.createHuman(humanDto));
+    @ResponseBody
+    @Transactional
+    public ModelAndView createHuman(@RequestParam("phone") String phone, HumanDto humanDto) {
+        ModelAndView modelAndView = new ModelAndView("one");
         HumanDto humanDtoTemp = humanService.createHuman(humanDto);
-//        modelAndView.addObject("human", humanDtoTemp);
+        List<PhoneDto> phoneDtoList = createPhone(humanDtoTemp, phone);
+        humanDtoTemp.setPhoneDtoList(phoneDtoList);
+        modelAndView.addObject("human", humanDtoTemp);
 
-//        return modelAndView;
+        return modelAndView;
     }
-//    @PostMapping(value = "/add")
-//    public Map<String, Object> createHuman(@RequestBody HumanDto humanDto) {
-//        HashMap<String, Object> map = new HashMap<String, Object>();
-//        map.put("human", humanService.updateHuman(humanDto));
-//        return map;
-////        return humanService.createHuman(humanDto);
-//    }
-    /*
-    @RequestMapping(
-  value = "/greetings-with-map-return-type",
-  method = RequestMethod.GET,
-  produces = "application/json"
-)
-@ResponseBody
-public Map<String, Object> getGreetingWhileReturnTypeIsMap() {
-    HashMap<String, Object> map = new HashMap<String, Object>();
-    map.put("test", "Hello from map");
-    return map;
-}
-     */
 
-    //
+
+    public List<PhoneDto> createPhone(HumanDto humanDto, String phone) {
+        PhoneDto phoneDto = new PhoneDto();
+        List<PhoneDto> dtoList = new ArrayList<>();
+
+        phoneDto.setHumanDto(humanDto);
+        phoneDto.setPhoneNumber(phone);
+        PhoneDto tempDto = phoneService.createPhone(phoneDto);
+        dtoList.add(tempDto);
+
+        return dtoList;
+    }
 //    todo тоже самое переделать
 //    @ApiOperation("изменение сущности")
 
     @PostMapping(value = "update")
+    @Transactional
     @ResponseBody
-    public void updateHuman(@RequestBody HumanDto humanDto) {
+    public String updateHuman(HumanDto humanDto) {
+        for (PhoneDto item:humanDto.getPhoneDtoList()){
+            item.setHumanDto(humanDto);
+            phoneService.updatePhone(item);
+        }
+
         humanService.updateHuman(humanDto);
-        home();
+
+        return "forward:/humans/home";
+    }
+
+    @GetMapping(value = "update/{id}")
+    @ResponseBody
+    public ModelAndView updatePage(@PathVariable() Long id) {
+        ModelAndView modelAndView = new ModelAndView("update");
+        HumanDto humanDto = humanService.getById(id);
+        modelAndView.addObject("human", humanDto);
+        return modelAndView;
     }
 
     @GetMapping(value = "/{id}")
@@ -118,10 +136,11 @@ public Map<String, Object> getGreetingWhileReturnTypeIsMap() {
     }
 
     //
-    @DeleteMapping("delete/{id}")
+    @PostMapping("delete")
 //    @ApiOperation("удаление сущьности")
-    public void deleteHuman(@PathVariable Long id) {
+    public String deleteHuman(@RequestParam("id") Long id) {
         humanService.delete(id);
+        return "redirect:/humans/home";
     }
 
     @GetMapping("/check")

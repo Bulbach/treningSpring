@@ -1,33 +1,51 @@
 package com.alex.controllers;
 
+import com.alex.dto.PhoneDto;
+import com.alex.service.HumanService;
 import com.alex.service.PhoneService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 @RestController
 @RequestMapping("/phone")
 public class PhoneController {
+    @Autowired
+    private PhoneService phoneService;
+    @Autowired
+    private HumanService humanService;
 
-    private final PhoneService phoneService = getPhoneService();
-
-    public PhoneService getPhoneService() {
+       public PhoneService getPhoneService() {
         return phoneService;
     }
 
-//    @PostMapping("/add")
-//    @ApiOperation("добавление телефона")
-//    public PhoneDto createPhone(@RequestBody PhoneDto phoneDto) {
-//        return phoneService.createPhone(phoneDto);
-//    }
-//
+    public void setPhoneService(PhoneService phoneService) {
+        this.phoneService = phoneService;
+    }
+
+    public HumanService getHumanService() {
+        return humanService;
+    }
+
+    public void setHumanService(HumanService humanService) {
+        this.humanService = humanService;
+    }
+
+    @PostMapping("/add")
+    public ModelAndView createPhone(@RequestParam("id") Long id, @RequestParam("phone") String phone) {
+        PhoneDto phoneDto = new PhoneDto();
+        phoneDto.setHumanDto(humanService.getById(id));
+        phoneDto.setPhoneNumber(phone);
+        phoneService.createPhone(phoneDto);
+        return new ModelAndView("redirect:/humans/home");
+    }
+
 //    todo переделать дичь лютая была
-//    @PostMapping("/update")
-//    @ApiOperation("изменение телефона")
-//    public PhoneDto updatePhone(@RequestBody PhoneDto phoneDto) {
-//        return phoneService.updatePhone(phoneDto);
-//    }
+    @PostMapping("/update")
+    public PhoneDto updatePhone(@RequestBody PhoneDto phoneDto) {
+        return phoneService.updatePhone(phoneDto);
+    }
 //
 //    @GetMapping("/get/{id}")
 //    @ApiOperation("поиск по id")
