@@ -48,7 +48,7 @@ public class HumanService {
         }
         return humanDao.findAll()
                 .stream()
-                .map(h -> humanMapper.toDto((Human) h))
+                .map(humanMapper::toDto)
                 .collect(Collectors.toList());
     }
 

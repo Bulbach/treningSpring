@@ -48,9 +48,9 @@ public class PhoneService {
     }
 
     public List<PhoneDto> getAll() {
-        return (List<PhoneDto>) phoneDao.findAll()
+        return phoneDao.findAll()
                 .stream()
-                .map(p -> phoneMapper.toDto(p))
+                .map(phoneMapper::toDto)
                 .collect(Collectors.toList());
     }
 
@@ -61,9 +61,16 @@ public class PhoneService {
         phoneDao.saveAll(phoneList);
     }
 
+//    public PhoneDto updatePhone(PhoneDto phoneDto) {
+//        Phone phoneById = phoneDao.findOne(phoneDto.getId());
+//        phoneMapper.updatePhoneFromDto(phoneDto, phoneById);
+//        return phoneMapper.toDto(phoneDao.update(phoneById));
+//    }
+
+//    /*
     public PhoneDto updatePhone(PhoneDto phoneDto) {
-        Phone phoneById = phoneDao.findOne(phoneDto.getId());
-        phoneMapper.updatePhoneFromDto(phoneDto, phoneById);
-        return phoneMapper.toDto(phoneDao.update(phoneById));
+        Phone phone = phoneMapper.toModel(phoneDto);
+        return phoneMapper.toDto(phoneDao.update(phone));
     }
+//     */
 }
