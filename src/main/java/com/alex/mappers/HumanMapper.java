@@ -13,8 +13,11 @@ public interface HumanMapper {
     HumanDto toDto(Human human);
 
 //    @Mapping(source = "idDto", target = "id")
+    @Mapping(target = "phone", ignore = true)
     @Mapping(source = "phoneDtoList",target = "phones")
     Human toModel(HumanDto humanDto);
 
+    @Mapping(target = "phone", ignore = true)
+    @Mapping(target = "phones", source = "phoneDtoList")
     void updateHumanFromDto(HumanDto dto, @MappingTarget Human human);
 }
