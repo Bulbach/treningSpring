@@ -60,7 +60,7 @@ public class HumanController {
     }
 
 
-    public List<PhoneDto> createPhone(HumanDto humanDto, String phone) {
+    private List<PhoneDto> createPhone(HumanDto humanDto, String phone) {
         PhoneDto phoneDto = new PhoneDto();
         List<PhoneDto> dtoList = new ArrayList<>();
 
@@ -74,10 +74,10 @@ public class HumanController {
 //    todo тоже самое переделать
 //    @ApiOperation("изменение сущности")
 
-    @PostMapping(value = "update")
-    @Transactional
-    @ResponseBody
+    @PostMapping(value = "/update")
+      @ResponseBody
     public ModelAndView updateHuman(HumanDto humanDto) {
+
         for (PhoneDto item:humanDto.getPhoneDtoList()){
             item.setHumanDto(humanDto);
             phoneService.updatePhone(item);
@@ -88,7 +88,7 @@ public class HumanController {
         return new ModelAndView("redirect:/humans/home");
     }
 
-    @GetMapping(value = "update/{id}")
+    @GetMapping(value = "/update/{id}")
     @ResponseBody
     public ModelAndView updatePage(@PathVariable() Long id) {
         ModelAndView modelAndView = new ModelAndView("update");
@@ -99,66 +99,29 @@ public class HumanController {
 
     @GetMapping(value = "/{id}")
 //    @ApiOperation("поиск по id")
-    public String getById(@PathVariable() Long id, Model model) {
-//        ModelAndView modelAndView = new ModelAndView("one");
-//        HumanDto humanDto = humanService.getById(id);
-//        modelAndView.addObject("human", humanDto);
-//        return modelAndView;
-//        return humanService.getById(id);
+    public ModelAndView getById(@PathVariable() Long id) {
+        ModelAndView modelAndView = new ModelAndView("one");
         HumanDto humanDto = humanService.getById(id);
-        model.addAttribute("human", humanDto);
-        return "one";
+        modelAndView.addObject("human", humanDto);
+        return modelAndView;
     }
-
-    @GetMapping(value = "/api/{id}")
-    @ResponseBody
-    public HumanDto getByIdApi(@PathVariable() Long id, Model model) {
-//        ModelAndView modelAndView = new ModelAndView("one");
-//        HumanDto humanDto = humanService.getById(id);
-//        modelAndView.addObject("human", humanDto);
-//        return modelAndView;
-//        return humanService.getById(id);
-        HumanDto humanDto = humanService.getById(id);
-
-        return humanDto;
-    }
-
 
     @GetMapping("/")
 //    @ApiOperation("полный список сущностей")
     public ModelAndView getAll() {
+
         ModelAndView modelAndView = new ModelAndView("humans");
         List<HumanDto> listHumans = humanService.getAll();
         modelAndView.addObject("listHuman", listHumans);
-//        model.addAttribute("listHuman",humanService.getAll());
-//        return "humans";
+
         return modelAndView;
     }
 
-    //
-    @PostMapping("delete")
+    @PostMapping("/delete")
 //    @ApiOperation("удаление сущьности")
     public String deleteHuman(@RequestParam("id") Long id) {
         humanService.delete(id);
         return "redirect:/humans/home";
     }
 
-    @GetMapping("/check")
-    @ResponseBody
-    public String check(ModelMap model) {
-        return "Human controller pppp";
-    }
-
-    @GetMapping("/test")
-    @ResponseBody
-    public HumanDto humanDto() {
-        HumanDto testDto = new HumanDto();
-        testDto.setId(7L);
-        testDto.setFirstname("Murlock");
-        testDto.setLastname("Barmaglot");
-        testDto.setCity("Hole");
-        testDto.setStreet("long");
-        testDto.setBirthday("20220224");
-        return testDto;
-    }
 }
