@@ -1,0 +1,16 @@
+D:\treningSpringConf\src\main\java\com\alex\config\WebConfig.java
+D:\treningSpringConf\src\main\java\com\alex\dto\PhoneDto.java
+D:\treningSpringConf\src\main\java\com\alex\service\PhoneService.java
+D:\treningSpringConf\src\main\java\com\alex\ApplicationInitializer.java
+D:\treningSpringConf\src\main\java\com\alex\repository\GenericDao.java
+D:\treningSpringConf\src\main\java\com\alex\mappers\PhoneMapper.java
+D:\treningSpringConf\src\main\java\com\alex\controllers\PhoneController.java
+D:\treningSpringConf\src\main\java\com\alex\controllers\HumanController.java
+D:\treningSpringConf\src\main\java\com\alex\dto\HumanDto.java
+D:\treningSpringConf\src\main\java\com\alex\model\Human.java
+D:\treningSpringConf\src\main\java\com\alex\repository\HumanDaoImpl.java
+D:\treningSpringConf\src\main\java\com\alex\mappers\HumanMapper.java
+D:\treningSpringConf\src\main\java\com\alex\repository\AbstractHibernateDao.java
+D:\treningSpringConf\src\main\java\com\alex\model\Phone.java
+D:\treningSpringConf\src\main\java\com\alex\repository\PhoneDaoImpl.java
+D:\treningSpringConf\src\main\java\com\alex\service\HumanService.java
