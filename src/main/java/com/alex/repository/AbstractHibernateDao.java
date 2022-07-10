@@ -43,11 +43,21 @@ public class AbstractHibernateDao<T, PK extends Serializable> implements Generic
 
     public T create(final T entity) {
         EntityManager entityManager = getEntityManager();
-        entityManager.getTransaction().begin();
-        entityManager.persist(entity);
-        entityManager.getTransaction().commit();
-        entityManager.close();
-        return entity;
+        try {
+
+            entityManager.getTransaction().begin();
+            entityManager.persist(entity);
+            entityManager.getTransaction().commit();
+            return entity;
+
+        } catch (Exception e) {
+
+            entityManager.getTransaction().rollback();
+            throw new RuntimeException("Create failed",e);
+        } finally {
+
+            entityManager.close();
+        }
     }
 
     public T update(final T entity) {
