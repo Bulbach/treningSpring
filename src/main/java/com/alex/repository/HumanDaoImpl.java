@@ -28,38 +28,49 @@ public class HumanDaoImpl extends AbstractHibernateDao<Human, Long> {
 
     @Override
     public List<Human> findAll() {
-
         EntityManager entityManager = getEntityManager();
-        List list = entityManager
-                .createQuery("select distinct h from Human h left join fetch h.phones p")
-                .getResultList();
-        entityManager.close();
-        return list;
+        try {
+            return entityManager
+                    .createQuery("select distinct h from Human h join fetch h.phones", Human.class)
+                    .getResultList();
+        } finally {
+            entityManager.close();
+        }
+
+//        EntityManager entityManager = getEntityManager();
+//        List<Human> list = entityManager
+//                .createQuery("select distinct h from Human h join fetch h.phones", Human.class)
+//                .getResultList();
+//        entityManager.close();
+//        return list;
     }
 
-    //    @Override
+    //        @Override
 //    public Human findOne(Long id) {
 //        EntityManager entityManager = getEntityManager();
-//        Human human = (Human) entityManager
-//                .createQuery("select h " +
-//                        "from Human h " +
-//                        "left join fetch h.phones p " +
-//                        "where h.id =" + id
-//                        + " group by h.id")
-//                .getSingleResult();
-//
-//        entityManager.close();
-//        return human;
+//        try{
+//            return entityManager
+//                    .createQuery("select h from Human h join fetch h.phones where h.id =" + id, Human.class)
+//                    .getSingleResult();
+//        }finally {
+//            entityManager.close();
+//        }
 //    }
     @Override
     public Human findOne(Long id) {
         EntityManager entityManager = getEntityManager();
-        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<Human> human = builder.createQuery(Human.class);
-        Root<Human> root = human.from(Human.class);
-        root.join("phones", JoinType.LEFT);
-        human.where(builder.equal(root.get("id"), id));
-        Human human1 = entityManager.createQuery(human).getSingleResult();
-        return human1;
+        try {
+
+            CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+            CriteriaQuery<Human> human = builder.createQuery(Human.class);
+            Root<Human> root = human.from(Human.class);
+            root.fetch("phones");
+            human.where(builder.equal(root.get("id"), id));
+            Human human1 = entityManager.createQuery(human).getSingleResult();
+
+            return human1;
+        } finally {
+            entityManager.close();
+        }
     }
 }

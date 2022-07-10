@@ -24,15 +24,23 @@ public class PhoneDaoImpl extends AbstractHibernateDao<Phone, Long> {
     public EntityManager getEntityManager() {
         return managerFactory.createEntityManager();
     }
+
     @Override
     public Phone findOne(Long id){
         EntityManager entityManager = getEntityManager();
+        try {
+
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Phone> phone = builder.createQuery(Phone.class);
         Root<Phone> root = phone.from(Phone.class);
-        root.join("human", JoinType.LEFT);
+        root.fetch("human");
         phone.where(builder.equal(root.get("id"),id));
-        return entityManager.createQuery(phone).getSingleResult();
+        Phone phone1 =entityManager.createQuery(phone).getSingleResult();
+        return phone1;
+        }finally {
+
+        entityManager.close();
+        }
 
     }
 
