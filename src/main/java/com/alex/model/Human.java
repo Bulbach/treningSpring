@@ -36,32 +36,6 @@ public class Human implements Serializable {
 //    @Temporal(TemporalType.DATE)
     private LocalDate birthday;
 
-    public Human() {
-    }
-
-    public Human(String firstname, String lastname) {
-        this.firstname = firstname;
-        this.lastname = lastname;
-    }
-
-    public Human(Long id, String lastname, String firstname, String city, String street, LocalDate birthday) {
-        this.id = id;
-        this.lastname = lastname;
-        this.firstname = firstname;
-        this.city = city;
-        this.street = street;
-        this.birthday = birthday;
-    }
-
-    public Human(Long id, String lastname, String firstname, String city, String street, List<Phone> phones, LocalDate birthday) {
-        this.id = id;
-        this.lastname = lastname;
-        this.firstname = firstname;
-        this.city = city;
-        this.street = street;
-        this.phones = phones;
-        this.birthday = birthday;
-    }
 
     public Long getId() {
         return id;
@@ -105,10 +79,23 @@ public class Human implements Serializable {
 
     public void setPhones(List<Phone> phonenum) {
         this.phones = phonenum;
+//        phones.forEach(p->p.setHuman(this));
     }
 
-    public void setPhones(Phone phone) {
+    public void setPhone(Phone phone) {
+        if(phone == null){
+            throw new IllegalArgumentException("Phone for Human id="+id+" is null");
+        }
+        phone.setHuman(this);
         phones.add(phone);
+    }
+
+    public void removePhone(Phone phone){
+        if(phone == null){
+            throw new IllegalArgumentException("Phone for Human id="+id+" is null");
+        }
+        phone.setHuman(null);
+        phones.remove(phone);
     }
 
     public String getCity() {
