@@ -60,9 +60,7 @@ public class HumanService {
     }
 
     public HumanDto updateHuman(HumanDto humanDto) {
-        Human humanById = humanDao.findOne(humanDto.getId());
-        humanMapper.updateHumanFromDto(humanDto, humanById);
-
-        return humanMapper.toDto(humanDao.update(humanById));
+        Human human = humanMapper.toModel(humanDto);
+        return humanMapper.toDto(humanDao.update(human));
     }
 }
