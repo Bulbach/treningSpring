@@ -6,7 +6,7 @@ import com.alex.model.Human;
 import com.alex.repository.HumanDaoImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.Collections;
 import java.util.List;

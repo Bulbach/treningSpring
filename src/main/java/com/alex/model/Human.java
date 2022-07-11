@@ -1,6 +1,6 @@
 package com.alex.model;
 
-import org.hibernate.annotations.GenericGenerator;
+
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -33,7 +33,6 @@ public class Human implements Serializable {
 
     @Column
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-//    @Temporal(TemporalType.DATE)
     private LocalDate birthday;
 
 
