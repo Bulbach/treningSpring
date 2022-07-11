@@ -62,8 +62,4 @@ public class PhoneController {
 //        phoneService.delete(id);
 //    }
 
-    @GetMapping("/check")
-    public String check(ModelMap model) {
-        return "Phone controller ggg";
-    }
 }
