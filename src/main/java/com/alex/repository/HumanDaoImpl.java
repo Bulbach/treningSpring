@@ -14,7 +14,6 @@ import java.util.List;
 @Repository
 public class HumanDaoImpl extends AbstractHibernateDao<Human, Long> {
     @Autowired
-//    @PersistenceContext
     private EntityManagerFactory managerFactory;
 
     public HumanDaoImpl(EntityManagerFactory managerFactory) {
@@ -36,26 +35,22 @@ public class HumanDaoImpl extends AbstractHibernateDao<Human, Long> {
         } finally {
             entityManager.close();
         }
-
-//        EntityManager entityManager = getEntityManager();
-//        List<Human> list = entityManager
-//                .createQuery("select distinct h from Human h join fetch h.phones", Human.class)
-//                .getResultList();
-//        entityManager.close();
-//        return list;
     }
 
-    //        @Override
-//    public Human findOne(Long id) {
-//        EntityManager entityManager = getEntityManager();
-//        try{
-//            return entityManager
-//                    .createQuery("select h from Human h join fetch h.phones where h.id =" + id, Human.class)
-//                    .getSingleResult();
-//        }finally {
-//            entityManager.close();
-//        }
-//    }
+                @Override
+        public Human findOne(Long id) {
+            EntityManager entityManager = getEntityManager();
+            try{
+                return entityManager
+                        .createQuery("select h from Human h join fetch h.phones where h.id =" + id, Human.class)
+                        .getSingleResult();
+            }finally {
+                entityManager.close();
+            }
+        }
+
+    /*
+    // This method is another working
     @Override
     public Human findOne(Long id) {
         EntityManager entityManager = getEntityManager();
@@ -73,4 +68,5 @@ public class HumanDaoImpl extends AbstractHibernateDao<Human, Long> {
             entityManager.close();
         }
     }
+     */
 }
