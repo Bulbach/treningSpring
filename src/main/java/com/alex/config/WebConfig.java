@@ -21,6 +21,11 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
+import springfox.documentation.builders.PathSelectors;
+import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spring.web.plugins.Docket;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import javax.annotation.Resource;
 import javax.sql.DataSource;
@@ -56,14 +61,14 @@ public class WebConfig implements WebMvcConfigurer {
         Properties properties = new Properties();
 
         properties.put("hibernate.dialect", environment.getRequiredProperty("hibernate.dialect"));
-        properties.put("hibernate.show_sql",true);
+        properties.put("hibernate.show_sql", true);
         properties.put("hibernate.hbm2ddl.auto", environment.getRequiredProperty("hibernate.hbm2ddl.auto"));
 
         return properties;
     }
 
     @Bean
-    public PlatformTransactionManager platformTransactionManager(){
+    public PlatformTransactionManager platformTransactionManager() {
         JpaTransactionManager trm = new JpaTransactionManager();
         trm.setEntityManagerFactory(entityManagerFactory().getObject());
 
@@ -89,6 +94,7 @@ public class WebConfig implements WebMvcConfigurer {
 
         return ds;
     }
+
     @Bean
     public DataSourceInitializer dataSourceInitializer() {
         ResourceDatabasePopulator resourceDatabasePopulator = new ResourceDatabasePopulator();
@@ -121,9 +127,10 @@ public class WebConfig implements WebMvcConfigurer {
     @Bean
     public FreeMarkerConfigurer freemarkerConfig() {
         FreeMarkerConfigurer freeMarkerConfigurer = new FreeMarkerConfigurer();
-        freeMarkerConfigurer.setTemplateLoaderPath("/WEB-INF/templates/");
+        freeMarkerConfigurer.setTemplateLoaderPath("/WEB-INF/resources/templates/");
         return freeMarkerConfigurer;
     }
+
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry
@@ -132,12 +139,12 @@ public class WebConfig implements WebMvcConfigurer {
     }
 
     @Bean
-    public HumanMapper humanMapperBean(){
-        return new  HumanMapperImpl();
+    public HumanMapper humanMapperBean() {
+        return new HumanMapperImpl();
     }
 
     @Bean
-    public PhoneMapper phoneMapperBean(){
+    public PhoneMapper phoneMapperBean() {
         return new PhoneMapperImpl();
     }
 }
