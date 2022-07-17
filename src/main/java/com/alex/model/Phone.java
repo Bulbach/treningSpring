@@ -1,9 +1,12 @@
 package com.alex.model;
 
+import io.swagger.annotations.ApiModel;
+
 import javax.persistence.*;
 import java.io.Serializable;
 @Entity
 @Table(name = "phones")
+@ApiModel("phone")
 public class Phone implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
