@@ -4,6 +4,8 @@ import com.alex.dto.HumanDto;
 import com.alex.dto.PhoneDto;
 import com.alex.service.HumanService;
 import com.alex.service.PhoneService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.MediaType;
@@ -21,6 +23,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/humans")
+@Api(value = "humanController")
 public class HumanController {
 
     @Autowired
@@ -37,7 +40,7 @@ public class HumanController {
     }
 
     @RequestMapping(value = "/home")
-//    @ApiOperation("метод для отправки данных на страницу jsp")
+    @ApiOperation("метод для отправки данных на страницу jsp")
     public ModelAndView home() {
         ModelAndView modelAndView = new ModelAndView("index");
         List<HumanDto> listHuman = humanService.getAll();
@@ -71,14 +74,14 @@ public class HumanController {
 
         return dtoList;
     }
-//    todo тоже самое переделать
-//    @ApiOperation("изменение сущности")
+
 
     @PostMapping(value = "/update")
-      @ResponseBody
+    @ResponseBody
+    @ApiOperation("изменение сущности")
     public ModelAndView updateHuman(HumanDto humanDto) {
 
-        for (PhoneDto item:humanDto.getPhoneDtoList()){
+        for (PhoneDto item : humanDto.getPhoneDtoList()) {
             item.setHumanDto(humanDto);
             phoneService.updatePhone(item);
         }

@@ -1,10 +1,14 @@
 package com.alex;
 
+
 import com.alex.config.WebConfig;
+
+import com.wordnik.swagger.config.SwaggerConfig;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -17,9 +21,10 @@ public class ApplicationInitializer implements WebApplicationInitializer {
     public void onStartup(ServletContext servletContext) throws ServletException {
         AnnotationConfigWebApplicationContext context = new AnnotationConfigWebApplicationContext();
         context.register(WebConfig.class);
+        context.register(SwaggerConfig.class);
         servletContext.addListener(new ContextLoaderListener(context));
 
-        ServletRegistration.Dynamic servlet = servletContext.addServlet(DISPATCHER,new DispatcherServlet(context));
+        ServletRegistration.Dynamic servlet = servletContext.addServlet(DISPATCHER, new DispatcherServlet(context));
         servlet.addMapping("/");
         servlet.setLoadOnStartup(1);
     }
