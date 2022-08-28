@@ -6,17 +6,16 @@ import com.alex.service.HumanService;
 import com.alex.service.PhoneService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.ws.rs.PathParam;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +24,7 @@ import java.util.List;
 @RequestMapping("/humans")
 @Api(value = "humanController")
 public class HumanController {
-
+    private final static Logger log = LoggerFactory.getLogger(HumanController.class);
     @Autowired
     private HumanService humanService;
     @Autowired
@@ -38,6 +37,7 @@ public class HumanController {
     public void setPhoneService(PhoneService phoneService) {
         this.phoneService = phoneService;
     }
+
 
     @RequestMapping(value = "/home")
     @ApiOperation("метод для отправки данных на страницу jsp")
@@ -53,6 +53,7 @@ public class HumanController {
     @ResponseBody
     @Transactional
     public ModelAndView createHuman(@RequestParam("phone") String phone, HumanDto humanDto) {
+        log.debug("Method createHuman started");
         ModelAndView modelAndView = new ModelAndView("one");
         HumanDto humanDtoTemp = humanService.createHuman(humanDto);
         List<PhoneDto> phoneDtoList = createPhone(humanDtoTemp, phone);

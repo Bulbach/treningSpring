@@ -7,6 +7,7 @@ com\alex\dto\HumanDto.class
 com\alex\model\Phone.class
 com\alex\repository\PhoneDaoImpl.class
 com\alex\mappers\HumanMapperImpl.class
+com\alex\config\SwaggerConfig.class
 com\alex\service\PhoneService.class
 com\alex\mappers\PhoneMapper.class
 com\alex\controllers\HumanController.class

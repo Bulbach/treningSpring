@@ -10,7 +10,7 @@ import javax.annotation.processing.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-07-10T03:12:16+0300",
+    date = "2022-08-26T09:57:00+0300",
     comments = "version: 1.4.2.Final, compiler: javac, environment: Java 11 (Oracle Corporation)"
 )
 public class PhoneMapperImpl implements PhoneMapper {

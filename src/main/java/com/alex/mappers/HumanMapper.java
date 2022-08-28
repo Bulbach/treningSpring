@@ -8,11 +8,9 @@ import org.mapstruct.MappingTarget;
 
 @Mapper(uses = PhoneMapper.class)
 public interface HumanMapper {
-//    @Mapping(source = "id" , target = "idDto")
     @Mapping(source = "phones",target = "phoneDtoList")
     HumanDto toDto(Human human);
 
-//    @Mapping(source = "idDto", target = "id")
     @Mapping(target = "phone", ignore = true)
     @Mapping(source = "phoneDtoList",target = "phones")
     Human toModel(HumanDto humanDto);

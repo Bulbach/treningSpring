@@ -14,3 +14,4 @@ D:\treningSpringConf\src\main\java\com\alex\repository\AbstractHibernateDao.java
 D:\treningSpringConf\src\main\java\com\alex\model\Phone.java
 D:\treningSpringConf\src\main\java\com\alex\repository\PhoneDaoImpl.java
 D:\treningSpringConf\src\main\java\com\alex\service\HumanService.java
+D:\treningSpringConf\src\main\java\com\alex\config\SwaggerConfig.java
