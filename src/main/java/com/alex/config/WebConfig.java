@@ -126,8 +126,9 @@ public class WebConfig implements WebMvcConfigurer {
     }
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry
-                .addResourceHandler("/resources/**")
+        registry.addResourceHandler("/swagger/**")
+                .addResourceLocations("/WEB-INF/swagger/");
+        registry.addResourceHandler("/resources/**")
                 .addResourceLocations("/WEB-INF/resources/");
     }
 
