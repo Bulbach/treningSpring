@@ -39,37 +39,39 @@
                     <div class="row">
                         <div class="col col-6">
                             <label class="form-label" for="firstname">Firstname : </label>
-                            <input type="text" class="form-control" name="firstname" id="firstname" required/><br/>
+                            <input tabindex="1" type="text" class="form-control" name="firstname" id="firstname"
+                                   required/><br/>
                         </div>
                         <div class="col col-6">
                             <label class="form-label" for="lastname">Lastname :</label>
-                            <input type="text" class="form-control" name="lastname" id="lastname" required/><br/>
+                            <input tabindex="2" type="text" class="form-control" name="lastname" id="lastname"
+                                   required/><br/>
                         </div>
                     </div>
                     <div class="row">
 
                         <div class="col col-4">
                             <label class="form-label" for="city">City :</label>
-                            <input type="text" class="form-control" name="city" id="city" required/><br/>
+                            <input tabindex="3" type="text" class="form-control" name="city" id="city" required/><br/>
                         </div>
                         <div class="col col-4">
                             <label class="form-label" for="street">Street :</label>
-                            <input type="text" class="form-control" name="street" id="street"/><br/>
+                            <input tabindex="4" type="text" class="form-control" name="street" id="street"/><br/>
                         </div>
                         <div class="col col-4">
                             <label class="form-label" for="birthday">Birthday :</label>
-                            <input type="date" pattern="yyyy-MM-dd" min="1950-12-31" class="form-control"
+                            <input tabindex="5" type="date" pattern="yyyy-MM-dd" min="1950-12-31" class="form-control"
                                    name="birthday" id="birthday" required/><br/>
                         </div>
                     </div>
                     <div class="row">
 
-                    <div class="col col-6">
-                        <label class="form-label" for="phone">Phone :</label>
-                        <input type="text" placeholder="phone number +375(xx)xxxxxxx"
-                               pattern="\s{0,}\+{1,1}375\s{0,}(([2]{1}([5]{1}|[9]{1}))|([3]{1}[3]{1})|([4]{1}[4]{1}))\s{0,}[0-9]{3,3}\s{0,}[0-9]{4,4}"
-                               class="form-control" name="phone" id="phone" required/><br/>
-                    </div>
+                        <div class="col col-6">
+                            <label class="form-label" for="phone">Phone :</label>
+                            <input tabindex="6" type="text" placeholder="phone number +375(xx)xxxxxxx"
+                                   pattern="\s{0,}\+{1,1}375\s{0,}(([2]{1}([5]{1}|[9]{1}))|([3]{1}[3]{1})|([4]{1}[4]{1}))\s{0,}[0-9]{3,3}\s{0,}[0-9]{4,4}"
+                                   class="form-control" name="phone" id="phone" required/><br/>
+                        </div>
                     </div>
                     <button type="submit" class="btn btn-primary">Save</button>
                 </fieldset>

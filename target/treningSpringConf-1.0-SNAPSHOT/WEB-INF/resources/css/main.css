@@ -1,6 +1,8 @@
 body{
     background-image: url(../images/phoneBox.jpg);
     font-family: "Roboto Light","Roboto";
+    background-position: 0 0;
+    background-repeat: no-repeat;
     background-size: cover;
     padding-top: 30px;
     }
